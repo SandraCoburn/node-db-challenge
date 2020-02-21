@@ -1,10 +1,10 @@
 const express = require("express");
 
-const Projects = require("./project-model");
+const Tasks = require("./project-model");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  Projects.find()
+  Tasks.findTasks(req.query)
     .then(projects => {
       res.json(projects);
     })
@@ -13,11 +13,13 @@ router.get("/", (req, res) => {
       res.status(500).json({ message: "Failed to get projects" });
     });
 });
-router.post("/", (req, res) => {
-  const newProject = req.body;
-  Projects.add(newProject)
-    .then(project => {
-      res.status(201).json(project);
+//create new tas for a project
+router.post("/:id/tasks", (req, res) => {
+  const { id } = req.params;
+  const newTask = { ...req.body, project_id: id };
+  Tasks.addTask(newTask)
+    .then(task => {
+      res.status(201).json(task);
     })
     .catch(err => {
       console.log(err);
