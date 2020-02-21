@@ -3,8 +3,9 @@ const express = require("express");
 const Projects = require("./project-model");
 const router = express.Router();
 
+//Get all projects from database
 router.get("/", (req, res) => {
-  Projects.find()
+  Projects.find(req.query)
     .then(projects => {
       res.json(projects);
     })
@@ -13,6 +14,8 @@ router.get("/", (req, res) => {
       res.status(500).json({ message: "Failed to get projects" });
     });
 });
+
+//create new project
 router.post("/", (req, res) => {
   const newProject = req.body;
   Projects.add(newProject)

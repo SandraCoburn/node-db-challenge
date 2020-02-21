@@ -1,27 +1,27 @@
 const express = require("express");
 
-const Projects = require("./project-model");
+const Resources = require("./project-model");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  Projects.find()
-    .then(projects => {
-      res.json(projects);
+  Resources.findResources()
+    .then(resources => {
+      res.json(resources);
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ message: "Failed to get projects" });
+      res.status(500).json({ message: "Failed to get resources" });
     });
 });
 router.post("/", (req, res) => {
-  const newProject = req.body;
-  Projects.add(newProject)
-    .then(project => {
-      res.status(201).json(project);
+  const newResource = req.body;
+  Resources.addResources(newResource)
+    .then(resource => {
+      res.status(201).json(resource);
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ message: "Failed to add project" });
+      res.status(500).json({ message: "Failed to add resources" });
     });
 });
 
