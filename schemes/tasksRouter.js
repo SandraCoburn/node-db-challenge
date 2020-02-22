@@ -5,14 +5,26 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   Tasks.findTasks(req.query)
-    .then(projects => {
-      res.json(projects);
+    .then(tasks => {
+      res.json(tasks);
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({ message: "Failed to get projects" });
     });
 });
+
+router.get("/:id", (req, res) => {
+  Tasks.findTaskById(req.params.id)
+    .then(tasks => {
+      res.json(tasks);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to get projects" });
+    });
+});
+
 //create new task for a project
 router.post("/:id/projects", (req, res) => {
   const { id } = req.params;

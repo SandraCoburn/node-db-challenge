@@ -65,13 +65,10 @@ function findResourcebyId(id) {
   }
 }
 function findTaskById(id) {
-  if (id) {
-    return db("tasks")
-      .where({ id })
-      .first();
-  } else {
-    return null;
-  }
+  return db("tasks as t")
+    .join("projects as p", "t.project_id", "t.id")
+    .select("t.id", "p.project_name", "p.projec_description")
+    .where("p.id", id);
 }
 function findResources() {
   return db("resources");
@@ -88,8 +85,8 @@ function getProjectTasks(projectId) {
     .then(tasks => tasks.map(task => mappers.taskToBody(task)));
 }
 function findTasks(id) {
-  // let query = db("tasks");
   return db("tasks");
+
   // if (id) {
   //   return query
   //     .where("id", id)
@@ -106,9 +103,4 @@ function findTasks(id) {
   //     return tasks.map(task => mappers.taskToBody(task));
   //   });
   // }
-
-  //   return db("tasks as t")
-  // .join("projects as p", "t.project_id", "t.id")
-  // .select("t.id", "p.name", "p.description")
-  // .where("p.id", id);
 }
